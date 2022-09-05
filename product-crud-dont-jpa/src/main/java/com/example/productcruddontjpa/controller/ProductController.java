@@ -20,10 +20,15 @@ public class ProductController {
         return service.insertProduct(product);
     }
 
+    // Thêm danh sách sản phẩm
+    @PostMapping("/addProducts")
+    public List<Product> addProducts(@RequestBody List<Product> products) throws SQLException, ClassNotFoundException {
+        return service.insertProducts(products);
+    }
 
     @GetMapping("/products")
-    public List<Product> getlistProducts() throws SQLException, ClassNotFoundException {
-        return service.queryProduct();
+    public List<Product> getListProducts() throws SQLException, ClassNotFoundException {
+        return service.getProducts();
     }
 
     @GetMapping("/productById/{id}")
@@ -40,4 +45,32 @@ public class ProductController {
     public String deleteProduct(@PathVariable int id) throws SQLException, ClassNotFoundException {
         return service.deleteProduct(id);
     }
+
+    // Xóa tất cả sản phẩm
+    @DeleteMapping("/delete")
+    public String deleteAllProduct() throws SQLException, ClassNotFoundException {
+        return service.deleteAllProduct();
+    }
 }
+
+/*
+[{
+        "name": "Product1",
+        "quantity": 1,
+        "price": 2000.0
+        },
+
+        {
+        "name": "Product2",
+        "quantity": 2,
+        "price": 2000.0
+        },
+
+        {
+        "name": "Product3",
+        "quantity": 3,
+        "price": 2000.0
+        }
+        ]
+
+ */

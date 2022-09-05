@@ -14,8 +14,9 @@ public class ProductController {
     private ProductService service;
 
     @PostMapping("/addProduct")
-    public Product addProduct(@RequestBody Product product) {
-        return service.saveProduct(product);
+    public String addProduct(@RequestBody Product product) {
+        service.saveProduct(product);
+        return "succesfuly";
     }
 
     @PostMapping("/addProducts")
@@ -47,4 +48,32 @@ public class ProductController {
     public String deleteProduct(@PathVariable int id) {
         return service.deleteProduct(id);
     }
+
+    // Xóa tất cả sản phẩm
+    @DeleteMapping("/delete")
+    public String deleteAllProduct() {
+        return service.deleteAllProduct();
+    }
 }
+
+/*
+[{
+        "name": "Trungoc1",
+        "quantity": 1,
+        "price": 2000.0
+        },
+
+        {
+        "name": "Trungoc2",
+        "quantity": 2,
+        "price": 2000.0
+        },
+
+        {
+        "name": "Trungoc3",
+        "quantity": 3,
+        "price": 2000.0
+        }
+        ]
+
+ */

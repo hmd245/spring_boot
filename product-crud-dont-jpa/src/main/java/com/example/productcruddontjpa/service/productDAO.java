@@ -39,16 +39,43 @@ public class productDAO implements ProductRepositories {
         }
     }
 
-    public List<Product> queryProduct() throws SQLException, ClassNotFoundException {
-        String sql = "select * from product_tbl";
+    public Product insertProduct(Product pd) throws SQLException, ClassNotFoundException {
         Connection conn = getConnection();
+        String sql = "insert into product_tbl set name=?, quantity=?, price=?";
+        // tạo đối tượng pstm để thực thi câu lệnh sql
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, pd.getName());
+        pstm.setInt(2, pd.getQuantity());
+        pstm.setDouble(3, pd.getPrice());
+        pstm.executeUpdate();
+        return pd;
+    }
+
+    public List<Product> insertProducts(List<Product> pd) throws SQLException, ClassNotFoundException {
+        Connection conn = getConnection();
+
+        for (Product pro : pd ) {
+            //String sql = "insert into product_tbl set name=?, quantity=?, price=?";
+            // String sql = "INSERT INTO product_tbl VALUES (pro)";
+            String sql = "INSERT INTO product_tbl set name=?, quantity=?, price=?";
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, pro.getName());
+            pstm.setInt(2, pro.getQuantity());
+            pstm.setDouble(3, pro.getPrice());
+            pstm.executeUpdate();
+        }
+        return pd;
+    }
+
+    public List<Product> getProducts() throws SQLException, ClassNotFoundException {
+        Connection conn = getConnection();
+        String sql = "select * from product_tbl";
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();
         List<Product> list = new ArrayList<Product>();
         while (rs.next()) {
             Product pd = new Product(rs.getInt("id"), rs.getString("Name"), rs.getInt("Quantity"), rs.getDouble("Price"));
             list.add(pd);
-
         }
         products = list;
         return list;
@@ -72,8 +99,8 @@ public class productDAO implements ProductRepositories {
 //        StringBuilder sql = new StringBuilder();
 //        sql.append("update product_tbl set name=?, quantity= ?, price=?");
 //        sql.append(" where id = " + id);
-        String sql="update product_tbl set name=?, quantity= ?, price=? where id="+id;
-        queryProduct();
+        String sql = "update product_tbl set name=?, quantity= ?, price=? where id=" + id;
+        getProducts();
 
         for (Product p : products) {
             if (id == p.getId()) {
@@ -87,22 +114,7 @@ public class productDAO implements ProductRepositories {
                 return prd;
             }
         }
-
         return null;
-
-    }
-
-    public Product insertProduct(Product pd) throws SQLException, ClassNotFoundException {
-
-        Connection conn = getConnection();
-        String sql = "insert into product_tbl set name=?, quantity=?, price=?";
-        // tạo đối tượng pstm để thực thi câu lệnh sql
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setString(1, pd.getName());
-        pstm.setInt(2, pd.getQuantity());
-        pstm.setDouble(3, pd.getPrice());
-        pstm.executeUpdate();
-        return pd;
     }
 
     public String deleteProduct(int id) throws SQLException, ClassNotFoundException {
@@ -114,6 +126,16 @@ public class productDAO implements ProductRepositories {
         pstm.execute();
         return "delete from product";
     }
+
+    // Xóa tất cả sản phẩm
+    public String deleteAllProduct() throws SQLException, ClassNotFoundException {
+        Connection conn = getConnection();
+        String sql = "DELETE FROM product_tbl";
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.execute();
+        return "delete all product";
+    }
+
 //    public static void PrintListProduct(Connection con) throws SQLException,ClassNotFoundException {
 //
 //        List list=queryProduct(con);
