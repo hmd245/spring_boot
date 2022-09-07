@@ -57,22 +57,23 @@ public class ProductController {
 }
 
 /*
-[{
-        "name": "Trungoc1",
+
+        [{
+        "name": "Product1",
         "quantity": 1,
-        "price": 2000.0
+        "price": 1000.0
         },
 
         {
-        "name": "Trungoc2",
+        "name": "Product2",
         "quantity": 2,
         "price": 2000.0
         },
 
         {
-        "name": "Trungoc3",
+        "name": "Product3",
         "quantity": 3,
-        "price": 2000.0
+        "price": 3000.0
         }
         ]
 
